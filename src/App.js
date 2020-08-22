@@ -15,6 +15,17 @@ import './App.css';
 // configure axios
 axios.defaults.baseURL = config.apiEndpoint;
 axios.defaults.withCredentials = true;
+axios.interceptors.response.use(
+  (response) => {
+      return response;
+  },
+  (error) => {
+      if (error.response && error.response.status === 401) {
+          window.location = '/auth/login';
+      }
+      return Promise.reject(error);
+  }
+);
 
 function App() {
   return (

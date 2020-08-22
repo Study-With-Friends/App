@@ -11,6 +11,7 @@ import DetailRow from '../components/Profile/DetailRow';
 import Title from '../components/Common/Title';
 import InfoMessage from '../components/Common/InfoMessage';
 import UserAvatar from '../components/Profile/UserAvatar';
+import NoteItem from '../components/Profile/NoteItem';
 
 const defaultPfp = require('../assets/default-pfp.png');
 
@@ -118,7 +119,7 @@ function Profile({ match }) {
                    }}
                >
                    {userData.file_list.map((note) => (
-                       <div>{JSON.stringify(note)}</div>
+                       <NoteItem className="mono" onClick={() => console.log(note.name)}>{note.displayName}</NoteItem>
                    ))}
                </div> 
                 ) : (
