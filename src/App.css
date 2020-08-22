@@ -15,3 +15,15 @@
   align-items: center;
   justify-content: center;
 }
+
+.success {
+  color: #30d158;
+}
+
+.error {
+  color: #ff453a;
+}
+
+span {
+  font-size: 11px;
+}

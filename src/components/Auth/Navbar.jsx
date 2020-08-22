@@ -8,7 +8,7 @@ export default function Navbar() {
             <a href="/">
                 <img style={styles.logo} src={logo}/>
             </a>
-            <a class="uppercase bold" style={styles.action}>Sign In</a>
+            <a className="uppercase bold" style={styles.action}>Sign In</a>
             </div>
         </div>
     )
