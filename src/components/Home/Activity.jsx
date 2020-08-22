@@ -8,7 +8,7 @@ function Activity({ username, fileName, displayName, edits }) {
     return (
         <div style={styles.horizontal}>
             <div className="left" style={styles.horizontalCentered}>
-                <UserAvatar className="sm" src={defaultPfp} />
+                <UserAvatar className="sm" src={defaultPfp} style={styles.avatar} />
                 <div style={styles.vertical}>
                     <span><b>{username}</b> created a new note</span>
                     <span className="mono">{displayName}</span>
@@ -25,7 +25,9 @@ const styles = {
     horizontal: {
         display: 'flex',
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        marginTop: '2em',
+        marginBottom: '2em',
     },
     horizontalCentered: {
         display: 'flex',
@@ -35,6 +37,9 @@ const styles = {
     vertical: {
         display: 'flex',
         flexDirection: 'column',
+    },
+    avatar: {
+        marginRight: 10,
     }
 }
 

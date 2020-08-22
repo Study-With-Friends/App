@@ -104,7 +104,7 @@ function Profile({ match }) {
                 <Content>
                     {userData.profile && (
                         <div style={styles.userInfoContainer}>
-                            <UserAvatar src={defaultPfp} />
+                            <UserAvatar className="has-margin" src={defaultPfp} />
                             <Name>{userData.profile.name}</Name>
                             <Details>
                                 <DetailRow className="mono">
