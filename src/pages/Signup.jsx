@@ -13,7 +13,7 @@ import Link from '../components/Common/Link';
 function Signup({ history }) {
 
     const [name, setName] = useState();
-    const [email, setEmail] = useState();
+    const [username, setUsername] = useState();
     const [password, setPassword] = useState();
 
     // error state
@@ -21,22 +21,22 @@ function Signup({ history }) {
     const [success, setSuccess] = useState(false);
 
     const [nameError, setNameError] = useState();
-    const [emailError, setEmailError] = useState();
+    const [usernameError, setUsernameError] = useState();
     const [passwordError, setPasswordError] = useState();
 
     useEffect(() => {
         if (name) setNameError();
-        if (email) setEmailError();
+        if (username) setUsernameError();
         if (password) setPasswordError();
-    }, [email, password]);
+    }, [username, password]);
 
     const doSignup = async () => {
         if (!name) {
             setNameError("Please enter your name");
             return;
         }
-        if (!email) {
-            setEmailError("Please enter a email");
+        if (!username) {
+            setUsernameError("Please enter a username");
             return;
         }
         if (!password) {
@@ -48,7 +48,7 @@ function Signup({ history }) {
         try {
             const { data, status } = await axios.post('/v1/curuser/register', {
                 name: name,
-                email: email,
+                username: username,
                 password: password, 
             });
 
@@ -60,8 +60,12 @@ function Signup({ history }) {
                 setSuccess(true);
             } 
         } catch (err) {
-            const { data, status } = err.response;
-            setResponseMessage(data ? data : 'oops, something went wrong.');
+            if (err.response) {
+                const { data, status } = err.response;
+                setResponseMessage(data);
+            } else {
+                setResponseMessage('oops, something went wrong.');
+            }
             setSuccess(false);
         }
 
@@ -77,9 +81,9 @@ function Signup({ history }) {
                 {nameError &&
                     <span className="error mono" style={{ marginBottom: 5 }}>{nameError}</span>
                 }
-                <Input type="text" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
-                {emailError &&
-                    <span className="error mono" style={{ marginBottom: 5 }}>{emailError}</span>
+                <Input type="text" placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} />
+                {usernameError &&
+                    <span className="error mono" style={{ marginBottom: 5 }}>{usernameError}</span>
                 }
                 <Input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
                 {passwordError &&

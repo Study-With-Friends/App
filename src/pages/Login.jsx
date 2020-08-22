@@ -11,24 +11,24 @@ import Button from '../components/Common/Button';
 import Link from '../components/Common/Link';
 
 function Login({ history }) {
-    const [email, setEmail] = useState();
+    const [username, setUsername] = useState();
     const [password, setPassword] = useState();
 
     // error state
     const [responseMessage, setResponseMessage] = useState();
     const [success, setSuccess] = useState(false);
 
-    const [emailError, setEmailError] = useState();
+    const [usernameError, setUsernameError] = useState();
     const [passwordError, setPasswordError] = useState();
 
     useEffect(() => {
-        if (email) setEmailError();
+        if (username) setUsernameError();
         if (password) setPasswordError();
-    }, [email, password]);
+    }, [username, password]);
 
     const doLogin = async () => {
-        if (!email) {
-            setEmailError("Please enter a email");
+        if (!username) {
+            setUsernameError("Please enter a username");
             return;
         }
         if (!password) {
@@ -38,7 +38,7 @@ function Login({ history }) {
 
         try {
             const { data, status } = await axios.post('/v1/curuser/login', {
-                email: email,
+                username: username,
                 password: password, 
             });
 
@@ -46,8 +46,12 @@ function Login({ history }) {
                 history.push('/');
             } 
         } catch (err) {
-            const { data, status } = err.response;
-            setResponseMessage(data ? data : 'oops, something went wrong.');
+            if (err.response) {
+                const { data, status } = err.response;
+                setResponseMessage(data);
+            } else {
+                setResponseMessage('oops, something went wrong.');
+            }
             setSuccess(false);
         }
     };
@@ -58,9 +62,9 @@ function Login({ history }) {
             <Content style={styles.vCenter}>
                 <Title>log in</Title>
                 <span className={'mono ' + (success ? 'success' : 'error')} style={{ marginBottom: 5 }}>{responseMessage}</span>
-                <Input type="text" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} />
-                {emailError &&
-                    <span className="error mono" style={{ marginBottom: 5 }}>{emailError}</span>
+                <Input type="text" placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} />
+                {usernameError &&
+                    <span className="error mono" style={{ marginBottom: 5 }}>{usernameError}</span>
                 }
                 <Input type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} />
                 {passwordError &&
