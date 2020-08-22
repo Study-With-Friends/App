@@ -14,7 +14,7 @@ import Details from '../components/Profile/Details';
 import DetailRow from '../components/Profile/DetailRow';
 import Title from '../components/Common/Title';
 import InfoMessage from '../components/Common/InfoMessage';
-import UserAvatar from '../components/Profile/UserAvatar';
+import UserAvatar from '../components/Common/UserAvatar';
 import NoteItem from '../components/Profile/NoteItem';
 import ButtonLink from '../components/Profile/ButtonLink';
 
