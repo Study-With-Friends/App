@@ -10,6 +10,8 @@ import Input from '../components/Common/Input';
 import Button from '../components/Common/Button';
 import Link from '../components/Common/Link';
 
+const logo = require('../assets/logo.svg');
+
 function Login({ history }) {
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
@@ -58,8 +60,11 @@ function Login({ history }) {
 
     return (
         <FullHeightContainer>
-            <Navbar />
+            {/* <Navbar /> */}
             <Content style={styles.vCenter}>
+                <div style={styles.logoContainer}>
+                    <img src={logo} style={styles.logo} />
+                </div>
                 <Title>log in</Title>
                 <span className={'mono ' + (success ? 'success' : 'error')} style={{ marginBottom: 5 }}>{responseMessage}</span>
                 <Input type="text" placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} />
@@ -82,6 +87,7 @@ function Login({ history }) {
 
 const styles = {
     vCenter: {
+        display: 'flex',
         flex: 1,
         justifyContent: 'center'
     },
@@ -89,7 +95,17 @@ const styles = {
         fontSize: 12,
         color: '#6A737D',
         marginTop: '2em',
-    }
+    },
+    logo: {
+        height: 64,
+        width: 64,
+    },
+    logoContainer: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 50  
+    },
 };
 
 export default Login;

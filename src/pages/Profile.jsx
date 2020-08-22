@@ -7,7 +7,7 @@ import {
     PeopleIcon,
 } from '@primer/octicons-react';
 
-import Navbar from '../components/Home/Navbar';
+import Navbar from '../components/Profile/Navbar';
 import Content from '../components/Common/Content';
 import Name from '../components/Profile/Name';
 import Details from '../components/Profile/Details';

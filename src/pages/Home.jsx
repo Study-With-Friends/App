@@ -5,15 +5,18 @@ import axios from 'axios';
 import { normalizeDate } from "../utils/helpers";
 
 import Navbar from '../components/Home/Navbar';
-import Content from '../components/Common/Content';
+import ContentWide from '../components/Common/ContentWide';
 import Title from '../components/Common/Title';
 import Activity from '../components/Home/Activity';
+import Tabs from '../components/Common/Tabs';
+import Tab from '../components/Common/Tab';
 
 export default function Home() {
 
     const [user, setUser] = useState();
-    const [users, setUsers] = useState([]);
+    const [users, setUsers] = useState();
     const [allActivity, setAllActivity] = useState({});
+    const [currentTab, setCurrentTab] = useState('activity');
 
     useEffect(() => {
         console.log(user);
@@ -25,13 +28,12 @@ export default function Home() {
             setUser(data);
         }
     };
-
     const getUsers = async () => {
         const { data, status } = await axios.get('/v1/users');
         if (status === 200) {
             setUsers(data);
         }
-    }
+    };
 
     const getAllActivity = async () => {
         const { data, status } = await axios.get('/v1/activity?dayCount=365');
@@ -41,20 +43,20 @@ export default function Home() {
     }
 
     useEffect(() => {
+        getAllActivity();
         getUser();
         getUsers();
-        getAllActivity();
     }, []);
-
-    useEffect(() => {
-        console.log(users);
-    }, [users]);
 
     return (
         <div>
             <Navbar user={user} />
-            <Content>                
-                { allActivity ?
+            <ContentWide>                
+                <Tabs style={{ marginBottom: 20 }}>
+                    <Tab className={currentTab === 'activity' ? 'active' : ''} onClick={() => setCurrentTab('activity')}>activity</Tab>
+                    <Tab className={currentTab === 'users' ? 'active' : ''} onClick={() => setCurrentTab('users')}>users</Tab>
+                </Tabs>
+                { currentTab === 'activity' && allActivity ?
                     Object.keys(allActivity).map(day => {
                         if (allActivity[day].length == 0) return;
                         return (
@@ -76,7 +78,14 @@ export default function Home() {
                         Looks a little empty. Upload some notes!
                     </div>
                 }
-            </Content>
+                { currentTab === 'users' && users &&
+                    users.map(user => {
+                        return (
+                            <div>{JSON.stringify(user)}</div>
+                        )
+                    })
+                }
+            </ContentWide>
         </div>
     )
 }

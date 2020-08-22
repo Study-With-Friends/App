@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 
 import UserAvatar from '../Common/UserAvatar';
 import Card from '../Common/Card';
@@ -7,6 +8,15 @@ import Pulse from '../Home/Pulse';
 import { formatDate } from '../../utils/helpers';
 
 const defaultPfp = require('../../assets/default-pfp.png');
+
+const UserLink = styled.a`
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    &:hover {
+        text-decoration: underline;
+    }
+`;
 
 function Activity({ username, fileName, displayName, edits, avatar }) {
     const editsPerDay = {};
@@ -33,16 +43,18 @@ function Activity({ username, fileName, displayName, edits, avatar }) {
     return (
         <Card style={styles.horizontal}>
             <div className="left" style={styles.horizontalCentered}>
-                <UserAvatar
-                    className="sm"
-                    src={avatar || defaultPfp}
-                    style={styles.avatar}
-                />
+                <a href={`/${username}`}>
+                    <UserAvatar
+                        className="sm"
+                        src={avatar || defaultPfp}
+                        style={styles.avatar}
+                    />
+                </a>
                 <div style={styles.vertical}>
                     <span>
-                        <a href={`/${username}`}>
+                        <UserLink href={`/${username}`}>
                             <b>{username}</b>
-                        </a>{' '}
+                        </UserLink>{' '}
                         created a new note
                     </span>
                     <span className="mono">{displayName}</span>

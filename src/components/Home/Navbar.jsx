@@ -17,7 +17,7 @@ export default function Navbar({ user }) {
 const styles = {
     navbar: {
         display: 'flex',
-        borderBottom: '1px solid #e5e5e5',
+        // borderBottom: '1px solid #e5e5e5',
         justifyContent: 'center',
     },
     navbarContainer: { 
@@ -28,6 +28,8 @@ const styles = {
         alignItems: 'center',
         justifyContent: 'space-between',
         padding: '16px 32px',
+        marginTop: 20,
+        marginBottom: 50,
     },
     logo: {
         width: 24,

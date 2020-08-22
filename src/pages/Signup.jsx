@@ -10,6 +10,8 @@ import Input from '../components/Common/Input';
 import Button from '../components/Common/Button';
 import Link from '../components/Common/Link';
 
+const logo = require('../assets/logo.svg');
+
 function Signup({ history }) {
 
     const [name, setName] = useState();
@@ -86,8 +88,10 @@ function Signup({ history }) {
 
     return (
         <FullHeightContainer>
-            <Navbar />
             <Content style={styles.vCenter}>
+                <div style={styles.logoContainer}>
+                    <img src={logo} style={styles.logo} />
+                </div>
                 <Title>sign up</Title>
                 <span className={'mono ' + (success ? 'success' : 'error')} style={{ marginBottom: 5 }}>{responseMessage}</span>
                 <Input type="text" placeholder="Full Name" value={name} onChange={e => setName(e.target.value)} />
@@ -129,7 +133,17 @@ const styles = {
         fontSize: 12,
         color: '#6A737D',
         marginTop: '2em',
-    }
+    },
+    logo: {
+        height: 64,
+        width: 64,
+    },
+    logoContainer: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 50  
+    },
 };
 
 export default Signup;

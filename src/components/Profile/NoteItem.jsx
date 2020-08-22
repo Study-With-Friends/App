@@ -10,7 +10,7 @@ function NoteItem({ noteData, openNoteHandler }) {
                 flex: 1,
                 cursor: 'pointer',
                 justifyContent: 'space-between',
-                marginBottom: 3,
+                marginBottom: 15,
             }}
             onClick={() => openNoteHandler(noteData.name)}
         >

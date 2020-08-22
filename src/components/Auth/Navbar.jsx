@@ -8,7 +8,6 @@ export default function Navbar() {
             <a href="/">
                 <img style={styles.logo} src={logo}/>
             </a>
-            <a className="uppercase bold" style={styles.action}>Sign In</a>
             </div>
         </div>
     )
@@ -17,7 +16,7 @@ export default function Navbar() {
 const styles = {
     navbar: {
         display: 'flex',
-        borderBottom: '1px solid #e5e5e5',
+        // borderBottom: '1px solid #e5e5e5',
         justifyContent: 'center',
     },
     navbarContainer: { 

@@ -9,8 +9,8 @@ const Button = styled.button`
     outline: none;
     padding-left: 16px;
     padding-right: 16px;
-    padding-top: ${props => props.className.includes('sm') ? '3px;' : '8px;'}
-    padding-bottom: ${props => props.className.includes('sm') ? '3px;' : '8px;'}
+    padding-top: ${props => props.className && props.className.includes('sm') ? '3px;' : '8px;'}
+    padding-bottom: ${props => props.className && props.className.includes('sm') ? '3px;' : '8px;'}
     font-weight: bold;
     line-height: 20px;
     white-space: nowrap;
