@@ -45,11 +45,10 @@ export default function NoteViewer({ match }) {
         getUser();
     }, []);
 
-
     return (
         <FullHeightContainer>
             <Navbar user={user} />
-            <Content style={styles.vCenter}>
+            <Content style={styles.noteContainer}>
             <Title>Your Note</Title>      
             {/* viewing note: { noteId } */}
             <div className='notes' style={styles.notes}>
@@ -58,19 +57,16 @@ export default function NoteViewer({ match }) {
             </Content>
             </FullHeightContainer>
     )
-
-    
 }
 
 const styles = {
-    vCenter: {
-        flex: 1,
-        justifyContent: 'center'
-    },
-    subText: { 
-        fontSize: 12,
-        color: '#6A737D',
-        marginTop: '2em',
+    noteContainer: {
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 50,
+        marginBottom: 50,
     },
     notes: {
         background: '#ebebeb',
