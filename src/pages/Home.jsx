@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { normalizeDate } from "../utils/helpers";
 
-import Navbar from '../components/Auth/Navbar';
+import Navbar from '../components/Home/Navbar';
 import Content from '../components/Common/Content';
 import Title from '../components/Common/Title';
 import Activity from '../components/Home/Activity';

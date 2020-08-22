@@ -110,7 +110,7 @@ function Signup({ history }) {
                 {passwordError &&
                     <span className="error mono" style={{ marginBottom: 5 }}>{passwordError}</span>
                 }
-                <Button onClick={() => doSignup()}>Sign up</Button>
+                <Button className="inversed" onClick={() => doSignup()}>Sign up</Button>
                 <p class="mono centered" style={styles.subText}>
                     Already have an account?
                     <Link href="/auth/login"> Log in</Link>instead
