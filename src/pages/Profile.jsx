@@ -7,7 +7,7 @@ import {
     PeopleIcon,
 } from '@primer/octicons-react';
 
-import Navbar from '../components/Auth/Navbar';
+import Navbar from '../components/Home/Navbar';
 import Content from '../components/Common/Content';
 import Name from '../components/Profile/Name';
 import Details from '../components/Profile/Details';
@@ -85,8 +85,8 @@ function Profile({ match, history }) {
 
     let isOwnProfile = false;
     if (user && userData) {
-        console.log(user)
-        console.log(userData)
+        console.log(user);
+        console.log(userData);
         isOwnProfile = user.username === userData.profile.username;
     }
 
@@ -231,7 +231,10 @@ function Profile({ match, history }) {
                                                 width: '100%',
                                                 height: '100%',
                                                 background: 'orange',
-                                                opacity: edits / 5,
+                                                opacity:
+                                                    edits > 0
+                                                        ? Math.log10(edits) / 3
+                                                        : 0,
                                             }}
                                         />
                                     </div>
