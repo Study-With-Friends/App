@@ -66,7 +66,7 @@ function Profile({ match }) {
                 {userData.profile && (
                     <div style={styles.userInfoContainer}>
                         <UserAvatar src={defaultPfp} />
-                        <Name>{userData.name}</Name>
+                        <Name>{userData.profile.name}</Name>
                         <Details>
                             <DetailRow className="mono">
                                 <MortarBoardIcon style={styles.icon}/>
