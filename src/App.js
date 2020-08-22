@@ -6,15 +6,17 @@ import Signup from './pages/Signup';
 import Profile from './pages/Profile';
 import NoteViewer from './pages/NoteViewer';
 
+import './App.css';
+
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Route path="/" component={Home} exact />
-        <Route path="/auth/login" component={Login} />
-        <Route path="/auth/signup" component={Signup} />
-        <Route path="/:userId" component={Profile} />
-        <Route path="/viewer/:noteId" component={NoteViewer} />
+        <Route path="/auth/login" component={Login} exact/>
+        <Route path="/auth/signup" component={Signup} exact/>
+        <Route path="/:userId" component={Profile} exact/>
+        <Route path="/viewer/:noteId" component={NoteViewer} exact/>
       </BrowserRouter>
     </div>
   );
