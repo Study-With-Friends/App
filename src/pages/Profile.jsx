@@ -20,8 +20,7 @@ function Profile({ match }) {
     } = match;
 
     const [userData, setUserData] = useState(null);
-    const [userEditHistory, setUserEditHistory] = useState(null);
-    const [userNotes, setUserNotes] = useState([]);
+    const [sortedEditHistoryDates, setSortedEditHistoryDates] = useState([]);
 
     const getUserData = async () => {
         const { data: userData, status: userStatus } = await axios.post(
@@ -32,9 +31,7 @@ function Profile({ match }) {
             }
         );
         if (userStatus === 200) {
-            setUserData(userData.profile);
-            setUserEditHistory(userData.history);
-            setUserNotes(userData.file_list);
+            setUserData(userData);
         }
     };
 
@@ -54,17 +51,19 @@ function Profile({ match }) {
         getUser();
     }, []);
 
-    let sortedEditHistoryDates;
-    if (userEditHistory) {
-        sortedEditHistoryDates = Object.keys(userEditHistory);
-        sortedEditHistoryDates.sort();
-    }
+    useEffect(() => {
+        if (userData && userData.history) {
+            const newSortedEditHistoryDates = Object.keys(userData.history);
+            setSortedEditHistoryDates(newSortedEditHistoryDates.slice(0).sort());
+        }
+    }, [userData]);
 
     return (
         <div>
             <Navbar user={user} />
+            {userData &&            
             <Content>
-                {userData && (
+                {userData.profile && (
                     <div style={styles.userInfoContainer}>
                         <UserAvatar src={defaultPfp} />
                         <Name>{userData.name}</Name>
@@ -81,7 +80,7 @@ function Profile({ match }) {
                     </div>
                 )}
                 <Title>activity</Title>
-                {userEditHistory && (
+                {userData.history && (
                     <div
                         style={{
                             display: 'flex',
@@ -98,7 +97,7 @@ function Profile({ match }) {
                                         margin: 1.5,
                                         borderRadius: 1,
                                         backgroundColor:
-                                            userEditHistory[date] > 0
+                                            userData.history[date] > 0
                                                 ? 'green'
                                                 : '#EAEDF0',
                                     }}
@@ -110,7 +109,7 @@ function Profile({ match }) {
                 )}
 
                 <Title style={{ marginTop: 40 }}>notes</Title>
-                {userNotes && userNotes.length > 0 ? (
+                {userData.file_list && userData.file_list.length > 0 ? (
                    <div
                    style={{
                        display: 'flex',
@@ -118,7 +117,7 @@ function Profile({ match }) {
                        flexWrap: 'wrap',
                    }}
                >
-                   {userNotes.map((note) => (
+                   {userData.file_list.map((note) => (
                        <div>{JSON.stringify(note)}</div>
                    ))}
                </div> 
@@ -126,6 +125,7 @@ function Profile({ match }) {
                     <InfoMessage className="mono">There's nothing here right now :(</InfoMessage>
                 )}
             </Content>
+            }
         </div>
     );
 }
