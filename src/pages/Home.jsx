@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 
 import axios from 'axios';
 
-import Navbar from '../components/Home/Navbar';
+import Navbar from '../components/Auth/Navbar';
 
 export default function Home() {
 

@@ -23,7 +23,7 @@ function App() {
         <Route path="/" component={Home} exact />
         <Route path="/auth/login" component={Login} exact/>
         <Route path="/auth/signup" component={Signup} exact/>
-        <Route path="/:userId" component={Profile} exact/>
+        <Route path="/:username" component={Profile} exact/>
         <Route path="/viewer/:noteId" component={NoteViewer} exact/>
       </BrowserRouter>
     </div>
