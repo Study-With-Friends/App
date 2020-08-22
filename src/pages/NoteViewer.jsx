@@ -48,14 +48,12 @@ export default function NoteViewer({ match }) {
     return (
         <FullHeightContainer>
             <Navbar user={user} />
-            <Content style={styles.noteContainer}>
-            <Title>Your Note</Title>      
-            {/* viewing note: { noteId } */}
-            <div className='notes' style={styles.notes}>
-            <ReactMarkdown source={file} />
+            <div style={styles.noteContainer}>
+                <div className='notes'>
+                    <ReactMarkdown source={file} />
+                </div>
             </div>
-            </Content>
-            </FullHeightContainer>
+        </FullHeightContainer>
     )
 }
 
@@ -68,9 +66,4 @@ const styles = {
         marginTop: 50,
         marginBottom: 50,
     },
-    notes: {
-        // background: '#ebebeb',
-        borderStyle: 'outset',
-        boxShadow: '5px 10px',
-    }
 };
