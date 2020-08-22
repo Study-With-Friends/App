@@ -16,6 +16,7 @@ import Title from '../components/Common/Title';
 import InfoMessage from '../components/Common/InfoMessage';
 import UserAvatar from '../components/Profile/UserAvatar';
 import NoteItem from '../components/Profile/NoteItem';
+import ButtonLink from '../components/Profile/ButtonLink';
 
 const defaultPfp = require('../assets/default-pfp.png');
 
@@ -72,6 +73,29 @@ function Profile({ match }) {
             return new Date(b.lastModified) - new Date(a.lastModified);
         });
     }
+
+    let followingUser = false;
+    if (user && userData && userData.profile && userData.profile.followerList) {
+        for (const follower of userData.profile.followerList) {
+            if (follower.id === user.id) {
+                followingUser = true;
+            }
+        }
+    }
+
+    const followUser = async () => {
+        await axios.post('/v1/user/follow', {
+            username
+        })
+        getUserData();
+    };
+
+    const unfollowUser = async () => {
+        await axios.post('/v1/user/unfollow', {
+            username
+        })
+        getUserData();
+    };
 
     return (
         <div>
@@ -130,6 +154,28 @@ function Profile({ match }) {
                                     <LocationIcon style={styles.icon} />
                                     Location not set
                                 </DetailRow>
+                                <div
+                                    style={{
+                                        marginTop: 5,
+                                        display: 'flex',
+                                        justifyContent: 'center',
+                                    }}
+                                >
+                                    <ButtonLink
+                                        style={{
+                                            padding: 3,
+                                        }}
+                                        onClick={() => {
+                                            if (followingUser) {
+                                                unfollowUser();
+                                            } else {
+                                                followUser();
+                                            }
+                                        }}
+                                    >
+                                        {followingUser ? 'Unfollow' : 'Follow'}
+                                    </ButtonLink>
+                                </div>
                             </Details>
                         </div>
                     )}
