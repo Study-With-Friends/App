@@ -12,7 +12,7 @@ import Tabs from '../components/Common/Tabs';
 import Tab from '../components/Common/Tab';
 import User from '../components/Home/User';
 
-export default function Home() {
+export default function Home({ history }) {
 
     const [user, setUser] = useState();
     const [users, setUsers] = useState();
@@ -43,6 +43,10 @@ export default function Home() {
         }
     }
 
+    const goToProfile = async (username) => {
+        history.push('/' + username)
+    };
+
     useEffect(() => {
         getAllActivity();
         getUser();
@@ -57,7 +61,7 @@ export default function Home() {
                     <Tab className={currentTab === 'activity' ? 'active' : ''} onClick={() => setCurrentTab('activity')}>activity</Tab>
                     <Tab className={currentTab === 'users' ? 'active' : ''} onClick={() => setCurrentTab('users')}>users</Tab>
                 </Tabs>
-                { currentTab === 'activity' && allActivity ?
+                { currentTab === 'activity' && allActivity && 
                     Object.keys(allActivity).map(day => {
                         if (allActivity[day].length == 0) return;
                         return (
@@ -74,17 +78,13 @@ export default function Home() {
                                 ))}
                             </div>
                         )
-                    }) : 
-                    <div>
-                        Looks a little empty. Upload some notes!
-                    </div>
+                    })
                 }
-                <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                <div>
                     { currentTab === 'users' && users &&
                         users.map(user => {
                             return (
                                 <User
-                                    id={user.id}
                                     avatar={user.avatar}
                                     name={user.name}
                                     username={user.username}
@@ -92,6 +92,7 @@ export default function Home() {
                                     location={user.location}
                                     followers={user.followerList}
                                     following={user.followingList}
+                                    goToProfileHandler={goToProfile}
                                 />
                             )
                         })
