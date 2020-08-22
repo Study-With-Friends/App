@@ -19,7 +19,7 @@ function NoteItem({ noteData }) {
                     color: 'grey',
                 }}
             >
-                Last edited {diff.humanize(true)}
+                {diff.humanize(true)}
             </div>
         </div>
     );

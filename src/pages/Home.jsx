@@ -2,13 +2,18 @@ import React, { useState, useEffect } from 'react'
 
 import axios from 'axios';
 
+import { normalizeDate } from "../utils/helpers";
+
 import Navbar from '../components/Auth/Navbar';
+import Content from '../components/Common/Content';
+import Title from '../components/Common/Title';
+import Activity from '../components/Home/Activity';
 
 export default function Home() {
 
     const [user, setUser] = useState();
     const [users, setUsers] = useState([]);
-    const [activity, setActivity] = useState({});
+    const [allActivity, setAllActivity] = useState({});
 
     useEffect(() => {
         console.log(user);
@@ -28,17 +33,17 @@ export default function Home() {
         }
     }
 
-    const getActivity = async () => {
-        const { data, status } = await axios.get('/v1/activity', { dayCount: 365 });
+    const getAllActivity = async () => {
+        const { data, status } = await axios.get('/v1/activity?dayCount=365');
         if (status === 200) {
-            setActivity(data);
+            setAllActivity(data);
         }
     }
 
     useEffect(() => {
         getUser();
         getUsers();
-        getActivity();
+        getAllActivity();
     }, []);
 
     useEffect(() => {
@@ -48,7 +53,26 @@ export default function Home() {
     return (
         <div>
             <Navbar user={user} />
-            Home
+            <Content>
+                { allActivity &&
+                    Object.keys(allActivity).map(day => {
+                        if (allActivity[day].length == 0) return;
+                        return (
+                            <div>
+                                <Title>{normalizeDate(day)}</Title>
+                                {allActivity[day].map(activity => (
+                                    <Activity
+                                        username={activity.username}
+                                        fileName={activity.fileName}
+                                        displayName={activity.fileDisplayName}
+                                        edits={activity.edits}
+                                    />
+                                ))}
+                            </div>
+                        )
+                    })
+                }
+            </Content>
         </div>
     )
 }
