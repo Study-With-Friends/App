@@ -10,6 +10,7 @@ import Title from '../components/Common/Title';
 import Activity from '../components/Home/Activity';
 import Tabs from '../components/Common/Tabs';
 import Tab from '../components/Common/Tab';
+import User from '../components/Home/User';
 
 export default function Home() {
 
@@ -78,13 +79,24 @@ export default function Home() {
                         Looks a little empty. Upload some notes!
                     </div>
                 }
-                { currentTab === 'users' && users &&
-                    users.map(user => {
-                        return (
-                            <div>{JSON.stringify(user)}</div>
-                        )
-                    })
-                }
+                <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+                    { currentTab === 'users' && users &&
+                        users.map(user => {
+                            return (
+                                <User
+                                    id={user.id}
+                                    avatar={user.avatar}
+                                    name={user.name}
+                                    username={user.username}
+                                    school={user.school}
+                                    location={user.location}
+                                    followers={user.followerList}
+                                    following={user.followingList}
+                                />
+                            )
+                        })
+                    }
+                </div>
             </ContentWide>
         </div>
     )

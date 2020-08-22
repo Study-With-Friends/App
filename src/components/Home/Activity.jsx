@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 import UserAvatar from '../Common/UserAvatar';
 import Card from '../Common/Card';
+import CardBody from '../Common/CardBody';
 import Pulse from '../Home/Pulse';
 
 import { formatDate } from '../../utils/helpers';
@@ -41,33 +42,35 @@ function Activity({ username, fileName, displayName, edits, avatar }) {
     });
 
     return (
-        <Card style={styles.horizontal}>
-            <div className="left" style={styles.horizontalCentered}>
-                <a href={`/${username}`}>
-                    <UserAvatar
-                        className="sm"
-                        src={avatar || defaultPfp}
-                        style={styles.avatar}
-                    />
-                </a>
-                <div style={styles.vertical}>
-                    <span>
-                        <UserLink href={`/${username}`}>
-                            <b>{username}</b>
-                        </UserLink>{' '}
-                        created a new note
-                    </span>
-                    <span className="mono">{displayName}</span>
+        <Card>
+            <CardBody style={styles.horizontal}>
+                <div className="left" style={styles.horizontalCentered}>
+                    <a href={`/${username}`}>
+                        <UserAvatar
+                            className="sm"
+                            src={avatar || defaultPfp}
+                            style={styles.avatar}
+                        />
+                    </a>
+                    <div style={styles.vertical}>
+                        <span>
+                            <UserLink href={`/${username}`}>
+                                <b>{username}</b>
+                            </UserLink>{' '}
+                            created a new note
+                        </span>
+                        <span className="mono">{displayName}</span>
+                    </div>
                 </div>
-            </div>
 
-            <div className="right">
-                <Pulse
-                    description="Pulse"
-                    title=""
-                    data={Object.values(editsPerDay).reverse()}
-                />
-            </div>
+                <div className="right">
+                    <Pulse
+                        description="Pulse"
+                        title=""
+                        data={Object.values(editsPerDay).reverse()}
+                    />
+                </div>
+            </CardBody>
         </Card>
     );
 }
