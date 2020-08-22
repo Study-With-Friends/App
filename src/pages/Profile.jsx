@@ -55,78 +55,88 @@ function Profile({ match }) {
     useEffect(() => {
         if (userData && userData.history) {
             const newSortedEditHistoryDates = Object.keys(userData.history);
-            setSortedEditHistoryDates(newSortedEditHistoryDates.slice(0).sort());
+            setSortedEditHistoryDates(
+                newSortedEditHistoryDates.slice(0).sort()
+            );
         }
     }, [userData]);
+
+    let sortedFileList;
+    if (userData && userData.file_list) {
+        sortedFileList = userData.file_list;
+        sortedFileList.sort((a, b) => {
+            return new Date(b.lastModified) - new Date(a.lastModified);
+        });
+    }
 
     return (
         <div>
             <Navbar user={user} />
-            {userData &&            
-            <Content>
-                {userData.profile && (
-                    <div style={styles.userInfoContainer}>
-                        <UserAvatar src={defaultPfp} />
-                        <Name>{userData.profile.name}</Name>
-                        <Details>
-                            <DetailRow className="mono">
-                                <MortarBoardIcon style={styles.icon}/>
-                                School not set
-                            </DetailRow>
-                            <DetailRow className="mono">
-                                <LocationIcon style={styles.icon}/>
-                                Location not set
-                            </DetailRow>
-                        </Details>
-                    </div>
-                )}
-                <Title>activity</Title>
-                {userData.history && (
-                    <div
-                        style={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            flexWrap: 'wrap',
-                        }}
-                    >
-                        {sortedEditHistoryDates.map((date) => {
-                            return (
-                                <div
-                                    style={{
-                                        width: 8,
-                                        height: 8,
-                                        margin: 1.5,
-                                        borderRadius: 1,
-                                        backgroundColor:
-                                            userData.history[date] > 0
-                                                ? 'green'
-                                                : '#EAEDF0',
-                                    }}
-                                    key={date}
-                                />
-                            );
-                        })}
-                    </div>
-                )}
+            {userData && (
+                <Content>
+                    {userData.profile && (
+                        <div style={styles.userInfoContainer}>
+                            <UserAvatar src={defaultPfp} />
+                            <Name>{userData.profile.name}</Name>
+                            <Details>
+                                <DetailRow className="mono">
+                                    <MortarBoardIcon style={styles.icon} />
+                                    School not set
+                                </DetailRow>
+                                <DetailRow className="mono">
+                                    <LocationIcon style={styles.icon} />
+                                    Location not set
+                                </DetailRow>
+                            </Details>
+                        </div>
+                    )}
+                    <Title>activity</Title>
+                    {userData.history && (
+                        <div
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'row',
+                                flexWrap: 'wrap',
+                            }}
+                        >
+                            {sortedEditHistoryDates.map((date) => {
+                                return (
+                                    <div
+                                        style={{
+                                            width: 8,
+                                            height: 8,
+                                            margin: 1.5,
+                                            borderRadius: 1,
+                                            backgroundColor:
+                                                userData.history[date] > 0
+                                                    ? 'green'
+                                                    : '#EAEDF0',
+                                        }}
+                                        key={date}
+                                    />
+                                );
+                            })}
+                        </div>
+                    )}
 
-                <Title style={{ marginTop: 40 }}>notes</Title>
-                {userData.file_list && userData.file_list.length > 0 ? (
-                   <div
-                   style={{
-                       display: 'flex',
-                       flexDirection: 'row',
-                       flexWrap: 'wrap',
-                   }}
-               >
-                   {userData.file_list.map((note) => (
-                       <NoteItem className="mono" onClick={() => console.log(note.name)}>{note.displayName}</NoteItem>
-                   ))}
-               </div> 
-                ) : (
-                    <InfoMessage className="mono">There's nothing here right now :(</InfoMessage>
-                )}
-            </Content>
-            }
+                    <Title style={{ marginTop: 40 }}>notes</Title>
+                    {sortedFileList && sortedFileList.length > 0 ? (
+                        <div>
+                            {sortedFileList.map((note) => (
+                                <NoteItem
+                                    className="mono"
+                                    onClick={() => console.log(note.name)}
+                                    noteData={note}
+                                />
+                            ))}
+                        </div>
+                    ) : (
+                        <InfoMessage className="mono">
+                            There's nothing here right now :(
+                        </InfoMessage>
+                    )}
+                </Content>
+            )}
         </div>
     );
 }
@@ -140,6 +150,6 @@ const styles = {
         marginTop: 50,
         marginBottom: 50,
     },
-}
+};
 
 export default Profile;
