@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 
 import axios from 'axios';
-import { MortarBoardIcon, LocationIcon } from '@primer/octicons-react';
+import {
+    MortarBoardIcon,
+    LocationIcon,
+    PeopleIcon,
+} from '@primer/octicons-react';
 
 import Navbar from '../components/Auth/Navbar';
 import Content from '../components/Common/Content';
@@ -79,6 +83,45 @@ function Profile({ match }) {
                             <UserAvatar src={defaultPfp} />
                             <Name>{userData.profile.name}</Name>
                             <Details>
+                                <DetailRow className="mono">
+                                    <PeopleIcon style={styles.icon} />
+                                    <div>
+                                        <span
+                                            style={{
+                                                fontWeight: 'bold',
+                                                marginRight: 5,
+                                            }}
+                                        >
+                                            {
+                                                userData.profile.followerList
+                                                    .length
+                                            }
+                                        </span>
+                                        followers
+                                    </div>
+                                    <div
+                                        style={{
+                                            marginLeft: 8,
+                                            marginRight: 8,
+                                        }}
+                                    >
+                                        ·
+                                    </div>
+                                    <div>
+                                        <span
+                                            style={{
+                                                fontWeight: 'bold',
+                                                marginRight: 5,
+                                            }}
+                                        >
+                                            {
+                                                userData.profile.followingList
+                                                    .length
+                                            }
+                                        </span>
+                                        following
+                                    </div>
+                                </DetailRow>
                                 <DetailRow className="mono">
                                     <MortarBoardIcon style={styles.icon} />
                                     School not set

@@ -3,7 +3,6 @@ import moment from 'moment';
 
 function NoteItem({ noteData }) {
     const diff = moment.duration(moment(noteData.lastModified).diff(moment()));
-    console.log(diff.humanize());
     return (
         <div
             style={{
