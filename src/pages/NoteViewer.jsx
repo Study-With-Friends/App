@@ -69,6 +69,8 @@ const styles = {
         marginBottom: 50,
     },
     notes: {
-        background: '#ebebeb',
+        // background: '#ebebeb',
+        borderStyle: 'outset',
+        boxShadow: '5px 10px',
     }
 };
