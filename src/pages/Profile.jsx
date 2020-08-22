@@ -20,7 +20,7 @@ import ButtonLink from '../components/Profile/ButtonLink';
 
 const defaultPfp = require('../assets/default-pfp.png');
 
-function Profile({ match }) {
+function Profile({ match, history }) {
     const {
         params: { username },
     } = match;
@@ -85,6 +85,8 @@ function Profile({ match }) {
 
     let isOwnProfile = false;
     if (user && userData) {
+        console.log(user)
+        console.log(userData)
         isOwnProfile = user.username === userData.profile.username;
     }
 
@@ -100,6 +102,10 @@ function Profile({ match }) {
             username,
         });
         getUserData();
+    };
+
+    const openNote = (noteId) => {
+        history.push('/viewer/' + noteId);
     };
 
     return (
@@ -240,7 +246,7 @@ function Profile({ match }) {
                             {sortedFileList.map((note) => (
                                 <NoteItem
                                     className="mono"
-                                    onClick={() => console.log(note.name)}
+                                    openNoteHandler={openNote}
                                     noteData={note}
                                 />
                             ))}

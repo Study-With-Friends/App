@@ -1,7 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 
-function NoteItem({ noteData }) {
+function NoteItem({ noteData, openNoteHandler }) {
     const diff = moment.duration(moment(noteData.lastModified).diff(moment()));
     return (
         <div
@@ -12,6 +12,7 @@ function NoteItem({ noteData }) {
                 justifyContent: 'space-between',
                 marginBottom: 3,
             }}
+            onClick={() => openNoteHandler(noteData.name)}
         >
             <div>{noteData.displayName}</div>
             <div
