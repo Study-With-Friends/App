@@ -16,7 +16,7 @@ import Title from '../components/Common/Title';
 import InfoMessage from '../components/Common/InfoMessage';
 import UserAvatar from '../components/Common/UserAvatar';
 import NoteItem from '../components/Profile/NoteItem';
-import ButtonLink from '../components/Profile/ButtonLink';
+import Button from '../components/Common/Button';
 
 const defaultPfp = require('../assets/default-pfp.png');
 
@@ -46,6 +46,8 @@ function Profile({ match, history }) {
     }, [username]);
 
     const [user, setUser] = useState();
+    const [followingUser, setFollowingUser] = useState(false);
+
     const getUser = async () => {
         const { data, status } = await axios.get('/v1/curuser');
         if (status === 200) {
@@ -58,11 +60,22 @@ function Profile({ match, history }) {
     }, []);
 
     useEffect(() => {
-        if (userData && userData.history) {
-            const newSortedEditHistoryDates = Object.keys(userData.history);
-            setSortedEditHistoryDates(
-                newSortedEditHistoryDates.slice(0).sort()
-            );
+        if (userData) {
+            if (userData.history) {
+                const newSortedEditHistoryDates = Object.keys(userData.history);
+                setSortedEditHistoryDates(
+                    newSortedEditHistoryDates.slice(0).sort()
+                );
+            }
+            if (user && userData.profile && userData.profile.followerList) {
+                for (const follower of userData.profile.followerList) {
+                    if (follower.id === user.id) {
+                        setFollowingUser(true);
+                    } else {
+                        setFollowingUser(false);
+                    }
+                }
+            }
         }
     }, [userData]);
 
@@ -74,19 +87,8 @@ function Profile({ match, history }) {
         });
     }
 
-    let followingUser = false;
-    if (user && userData && userData.profile && userData.profile.followerList) {
-        for (const follower of userData.profile.followerList) {
-            if (follower.id === user.id) {
-                followingUser = true;
-            }
-        }
-    }
-
     let isOwnProfile = false;
-    if (user && userData) {
-        console.log(user);
-        console.log(userData);
+    if (user && userData && userData.profile) {
         isOwnProfile = user.username === userData.profile.username;
     }
 
@@ -121,6 +123,25 @@ function Profile({ match, history }) {
                             />
                             <Name>{userData.profile.name}</Name>
                             <Details>
+                                {!isOwnProfile && (
+                                    <Button
+                                        className="sm"
+                                        onClick={() => {
+                                            if (followingUser) {
+                                                setFollowingUser(false);
+                                                unfollowUser();
+                                            } else {
+                                                setFollowingUser(true);
+                                                followUser();
+                                            }
+                                        }}
+                                        style={{ marginBottom: 10 }}
+                                    >
+                                        {followingUser
+                                            ? 'Unfollow'
+                                            : 'Follow'}
+                                    </Button>
+                                )}
                                 <DetailRow className="mono">
                                     <PeopleIcon style={styles.icon} />
                                     <div>
@@ -170,32 +191,6 @@ function Profile({ match, history }) {
                                     {userData.profile.location ||
                                         'Location not set'}
                                 </DetailRow>
-                                {!isOwnProfile && (
-                                    <div
-                                        style={{
-                                            marginTop: 5,
-                                            display: 'flex',
-                                            justifyContent: 'center',
-                                        }}
-                                    >
-                                        <ButtonLink
-                                            style={{
-                                                padding: 3,
-                                            }}
-                                            onClick={() => {
-                                                if (followingUser) {
-                                                    unfollowUser();
-                                                } else {
-                                                    followUser();
-                                                }
-                                            }}
-                                        >
-                                            {followingUser
-                                                ? 'Unfollow'
-                                                : 'Follow'}
-                                        </ButtonLink>
-                                    </div>
-                                )}
                             </Details>
                         </div>
                     )}

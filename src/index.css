@@ -14,8 +14,14 @@ body {
     text-rendering: optimizeLegibility;
 }
 
+.hover-square {
+  border-color: transparent;
+  border-width: 1px;
+  border-style: solid; 
+}
+
 .hover-square:hover {
-    border-color: rgb(116, 116, 116);
-    border-width: 1px;
-    border-style: solid;
+  border-color: rgb(116, 116, 116);
+  border-width: 1px;
+  border-style: solid;
 }
