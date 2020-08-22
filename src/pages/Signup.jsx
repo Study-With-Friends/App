@@ -15,6 +15,8 @@ function Signup({ history }) {
     const [name, setName] = useState();
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
+    const [school, setSchool] = useState();
+    const [location, setLocation] = useState();
 
     // error state
     const [responseMessage, setResponseMessage] = useState();
@@ -23,6 +25,8 @@ function Signup({ history }) {
     const [nameError, setNameError] = useState();
     const [usernameError, setUsernameError] = useState();
     const [passwordError, setPasswordError] = useState();
+    const [schoolError, setSchoolError] = useState();
+    const [locationError, setLocationError] = useState();
 
     useEffect(() => {
         if (name) setNameError();
@@ -34,6 +38,13 @@ function Signup({ history }) {
         if (!name) {
             setNameError("Please enter your name");
             return;
+        }
+        if (!school) {
+            setSchoolError("Please enter your school")
+            return;
+        }
+        if (!location) {
+            setSchoolError("Please enter your location")
         }
         if (!username) {
             setUsernameError("Please enter a username");
@@ -47,9 +58,11 @@ function Signup({ history }) {
 
         try {
             const { data, status } = await axios.post('/v1/curuser/register', {
-                name: name,
-                username: username,
-                password: password, 
+                name,
+                username,
+                password, 
+                school,
+                location
             });
 
             if (status === 200) {
@@ -80,6 +93,14 @@ function Signup({ history }) {
                 <Input type="text" placeholder="Full Name" value={name} onChange={e => setName(e.target.value)} />
                 {nameError &&
                     <span className="error mono" style={{ marginBottom: 5 }}>{nameError}</span>
+                }
+                <Input type="text" placeholder="School" value={school} onChange={e => setSchool(e.target.value)} />
+                {schoolError &&
+                    <span className="error mono" style={{ marginBottom: 5 }}>{schoolError}</span>
+                }
+                <Input type="text" placeholder="Location" value={location} onChange={e => setLocation(e.target.value)} />
+                {locationError &&
+                    <span className="error mono" style={{ marginBottom: 5 }}>{locationError}</span>
                 }
                 <Input type="text" placeholder="Username" value={username} onChange={e => setUsername(e.target.value)} />
                 {usernameError &&

@@ -83,17 +83,22 @@ function Profile({ match }) {
         }
     }
 
+    let isOwnProfile = false;
+    if (user && userData) {
+        isOwnProfile = user.username === userData.profile.username;
+    }
+
     const followUser = async () => {
         await axios.post('/v1/user/follow', {
-            username
-        })
+            username,
+        });
         getUserData();
     };
 
     const unfollowUser = async () => {
         await axios.post('/v1/user/unfollow', {
-            username
-        })
+            username,
+        });
         getUserData();
     };
 
@@ -148,34 +153,40 @@ function Profile({ match }) {
                                 </DetailRow>
                                 <DetailRow className="mono">
                                     <MortarBoardIcon style={styles.icon} />
-                                    School not set
+                                    {userData.profile.school ||
+                                        'School not set'}
                                 </DetailRow>
                                 <DetailRow className="mono">
                                     <LocationIcon style={styles.icon} />
-                                    Location not set
+                                    {userData.profile.location ||
+                                        'Location not set'}
                                 </DetailRow>
-                                <div
-                                    style={{
-                                        marginTop: 5,
-                                        display: 'flex',
-                                        justifyContent: 'center',
-                                    }}
-                                >
-                                    <ButtonLink
+                                {!isOwnProfile && (
+                                    <div
                                         style={{
-                                            padding: 3,
-                                        }}
-                                        onClick={() => {
-                                            if (followingUser) {
-                                                unfollowUser();
-                                            } else {
-                                                followUser();
-                                            }
+                                            marginTop: 5,
+                                            display: 'flex',
+                                            justifyContent: 'center',
                                         }}
                                     >
-                                        {followingUser ? 'Unfollow' : 'Follow'}
-                                    </ButtonLink>
-                                </div>
+                                        <ButtonLink
+                                            style={{
+                                                padding: 3,
+                                            }}
+                                            onClick={() => {
+                                                if (followingUser) {
+                                                    unfollowUser();
+                                                } else {
+                                                    followUser();
+                                                }
+                                            }}
+                                        >
+                                            {followingUser
+                                                ? 'Unfollow'
+                                                : 'Follow'}
+                                        </ButtonLink>
+                                    </div>
+                                )}
                             </Details>
                         </div>
                     )}
