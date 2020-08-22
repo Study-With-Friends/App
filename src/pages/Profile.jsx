@@ -109,7 +109,10 @@ function Profile({ match }) {
                 <Content>
                     {userData.profile && (
                         <div style={styles.userInfoContainer}>
-                            <UserAvatar className="has-margin" src={defaultPfp} />
+                            <UserAvatar
+                                className="has-margin"
+                                src={defaultPfp}
+                            />
                             <Name>{userData.profile.name}</Name>
                             <Details>
                                 <DetailRow className="mono">
@@ -200,20 +203,32 @@ function Profile({ match }) {
                             }}
                         >
                             {sortedEditHistoryDates.map((date) => {
+                                const edits = userData.history[date];
                                 return (
                                     <div
+                                        className="hover-square"
+                                        title={date + ` ~ ${edits} edits`}
                                         style={{
                                             width: 8,
                                             height: 8,
                                             margin: 1.5,
                                             borderRadius: 1,
-                                            backgroundColor:
-                                                userData.history[date] > 0
-                                                    ? 'green'
-                                                    : '#EAEDF0',
+                                            backgroundColor: '#eeeeee',
+                                            cursor: 'pointer',
                                         }}
                                         key={date}
-                                    />
+                                    >
+                                        <div
+                                            style={{
+                                                top: 0,
+                                                left: 0,
+                                                width: '100%',
+                                                height: '100%',
+                                                background: 'orange',
+                                                opacity: edits / 5,
+                                            }}
+                                        />
+                                    </div>
                                 );
                             })}
                         </div>
