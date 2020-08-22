@@ -1,12 +1,13 @@
 import React from 'react';
 
 import UserAvatar from '../Common/UserAvatar';
+import Card from '../Common/Card';
 
 const defaultPfp = require('../../assets/default-pfp.png');
 
 function Activity({ username, fileName, displayName, edits }) {
     return (
-        <div style={styles.horizontal}>
+        <Card style={styles.horizontal}>
             <div className="left" style={styles.horizontalCentered}>
                 <UserAvatar className="sm" src={defaultPfp} style={styles.avatar} />
                 <div style={styles.vertical}>
@@ -17,7 +18,7 @@ function Activity({ username, fileName, displayName, edits }) {
 
             <div className="right">
             </div>
-        </div>
+        </Card>
     )
 }
 
@@ -26,8 +27,6 @@ const styles = {
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginTop: '2em',
-        marginBottom: '2em',
     },
     horizontalCentered: {
         display: 'flex',
