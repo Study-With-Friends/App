@@ -111,7 +111,7 @@ function Profile({ match }) {
                         <div style={styles.userInfoContainer}>
                             <UserAvatar
                                 className="has-margin"
-                                src={defaultPfp}
+                                src={userData.profile.avatar || defaultPfp}
                             />
                             <Name>{userData.profile.name}</Name>
                             <Details>

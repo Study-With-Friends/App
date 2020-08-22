@@ -53,8 +53,8 @@ export default function Home() {
     return (
         <div>
             <Navbar user={user} />
-            <Content>
-                { allActivity &&
+            <Content>                
+                { allActivity ?
                     Object.keys(allActivity).map(day => {
                         if (allActivity[day].length == 0) return;
                         return (
@@ -66,11 +66,15 @@ export default function Home() {
                                         fileName={activity.fileName}
                                         displayName={activity.fileDisplayName}
                                         edits={activity.edits}
+                                        avatar={activity.avatar}
                                     />
                                 ))}
                             </div>
                         )
-                    })
+                    }) : 
+                    <div>
+                        Looks a little empty. Upload some notes!
+                    </div>
                 }
             </Content>
         </div>

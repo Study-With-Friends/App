@@ -8,7 +8,7 @@ import { formatDate } from '../../utils/helpers';
 
 const defaultPfp = require('../../assets/default-pfp.png');
 
-function Activity({ username, fileName, displayName, edits }) {
+function Activity({ username, fileName, displayName, edits, avatar }) {
     const editsPerDay = {};
     const numDays = 30;
 
@@ -35,7 +35,7 @@ function Activity({ username, fileName, displayName, edits }) {
             <div className="left" style={styles.horizontalCentered}>
                 <UserAvatar
                     className="sm"
-                    src={defaultPfp}
+                    src={avatar || defaultPfp}
                     style={styles.avatar}
                 />
                 <div style={styles.vertical}>
