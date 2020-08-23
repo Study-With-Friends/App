@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 
 import axios from 'axios';
 
-import { normalizeDate } from "../utils/helpers";
+import { normalizeDate } from '../utils/helpers';
 
 import Navbar from '../components/Home/Navbar';
 import ContentWide from '../components/Common/ContentWide';
@@ -13,7 +13,6 @@ import Tab from '../components/Common/Tab';
 import User from '../components/Home/User';
 
 export default function Home({ history }) {
-
     const [user, setUser] = useState();
     const [users, setUsers] = useState();
     const [allActivity, setAllActivity] = useState({});
@@ -41,10 +40,10 @@ export default function Home({ history }) {
         if (status === 200) {
             setAllActivity(data);
         }
-    }
+    };
 
     const goToProfile = async (username) => {
-        history.push('/' + username)
+        history.push('/' + username);
     };
 
     useEffect(() => {
@@ -54,12 +53,12 @@ export default function Home({ history }) {
     }, []);
 
     const editsForFile = {};
-    Object.keys(allActivity).forEach(key => {
+    Object.keys(allActivity).forEach((key) => {
         const activitiesForDay = allActivity[key];
 
-        activitiesForDay.forEach(activity => {
+        activitiesForDay.forEach((activity) => {
             if (!(activity.file.name in editsForFile)) {
-                editsForFile[activity.file.name] = []
+                editsForFile[activity.file.name] = [];
             }
             editsForFile[activity.file.name].push(activity.timestamp);
         });
@@ -68,49 +67,64 @@ export default function Home({ history }) {
     return (
         <div>
             <Navbar user={user} />
-            <ContentWide>                
+            <ContentWide>
                 <Tabs style={{ marginBottom: 20 }}>
-                    <Tab className={currentTab === 'activity' ? 'active' : ''} onClick={() => setCurrentTab('activity')}>activity</Tab>
-                    <Tab className={currentTab === 'users' ? 'active' : ''} onClick={() => setCurrentTab('users')}>users</Tab>
+                    <Tab
+                        className={currentTab === 'activity' ? 'active' : ''}
+                        onClick={() => setCurrentTab('activity')}
+                    >
+                        activity
+                    </Tab>
+                    <Tab
+                        className={currentTab === 'users' ? 'active' : ''}
+                        onClick={() => setCurrentTab('users')}
+                    >
+                        users
+                    </Tab>
                 </Tabs>
-                { currentTab === 'activity' && allActivity && 
-                    Object.keys(allActivity).map(day => {
+                {currentTab === 'activity' &&
+                    allActivity &&
+                    Object.keys(allActivity).map((day) => {
                         if (allActivity[day].length == 0) return;
                         return (
                             <div>
                                 <Title>{normalizeDate(day)}</Title>
-                                {allActivity[day].map(activity => (
+                                {allActivity[day].map((activity) => (
                                     <Activity
                                         username={activity.owner.username}
                                         fileName={activity.file.name}
-                                        displayName={activity.file.fileDisplayName}
+                                        displayName={
+                                            activity.file.fileDisplayName
+                                        }
                                         edits={editsForFile[activity.file.name]}
                                         avatar={activity.owner.avatar}
                                     />
                                 ))}
                             </div>
-                        )
-                    })
-                }
+                        );
+                    })}
                 <div>
-                    { currentTab === 'users' && users &&
-                        users.map(user => {
-                            return (
-                                <User
-                                    avatar={user.avatar}
-                                    name={user.name}
-                                    username={user.username}
-                                    school={user.school}
-                                    location={user.location}
-                                    followers={user.followerList}
-                                    following={user.followingList}
-                                    goToProfileHandler={goToProfile}
-                                />
-                            )
-                        })
-                    }
+                    {currentTab === 'users' &&
+                        users &&
+                        users.map((listUser) => {
+                            if (listUser.username !== user.username) {
+                                return (
+                                    <User
+                                        avatar={listUser.avatar}
+                                        name={listUser.name}
+                                        username={listUser.username}
+                                        school={listUser.school}
+                                        location={listUser.location}
+                                        followers={listUser.followerList}
+                                        following={listUser.followingList}
+                                        goToProfileHandler={goToProfile}
+                                    />
+                                );
+                            }
+                            return null;
+                        })}
                 </div>
             </ContentWide>
         </div>
-    )
+    );
 }

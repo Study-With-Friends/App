@@ -106,7 +106,7 @@ function Profile({ match, history }) {
         getUserData();
     };
 
-    const openNote = (noteId) => {
+    const openNote = (noteId) => {        
         history.push('/viewer/' + noteId);
     };
 

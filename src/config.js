@@ -1,5 +1,5 @@
 const localEndpoint = 'http://localhost:5000';
-// const localEndpoint = 'http://34.226.233.249';
+// const localEndpoint = 'http://3.237.188.242';
 const prodEndpoint = 'https://api.studynotes.space'
 
 const endpoint = process.env.NODE_ENV === 'production' ? prodEndpoint : localEndpoint;

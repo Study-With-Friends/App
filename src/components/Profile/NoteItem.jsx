@@ -12,7 +12,10 @@ function NoteItem({ noteData, openNoteHandler }) {
                 justifyContent: 'space-between',
                 marginBottom: 15,
             }}
-            onClick={() => openNoteHandler(noteData.name)}
+            onClick={() => {
+                console.log(noteData);
+                openNoteHandler(noteData.name);
+            }}
         >
             <div>{noteData.displayName}</div>
             <div
