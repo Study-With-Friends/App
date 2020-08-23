@@ -121,7 +121,7 @@ function Profile({ match, history }) {
 
     return (
         <div>
-            <Navbar user={user} />
+            <Navbar user={user} goToSignInHandler={() => history.push('/auth/login')}/>
             {userData && (
                 <Content>
                     {userData.profile && (
