@@ -19,29 +19,7 @@ const UserLink = styled.a`
     }
 `;
 
-function Activity({ username, action, fileName, displayName, edits, avatar, goToFileHandler }) {
-    const editsPerDay = {};
-    const numDays = 30;
-
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    // pre-populate edits per day
-    for (let i = 0; i < numDays; i++) {
-        const newDate = new Date();
-        newDate.setDate(newDate.getUTCDate() - i);
-        editsPerDay[formatDate(newDate)] = 0;
-    }
-
-    edits.forEach((edit) => {
-        const editDate = edit.split(' ')[0];
-        if (editDate in editsPerDay) {
-            editsPerDay[editDate] += 1;
-        }
-    });
-
-    
-
+function Activity({ username, action, fileName, displayName, edits, avatar, goToFileHandler }) {    
     return (
         <Card onClick={() => goToFileHandler(fileName)}>
             <CardBody style={styles.horizontal}>
@@ -68,7 +46,7 @@ function Activity({ username, action, fileName, displayName, edits, avatar, goTo
                     <Pulse
                         description="Pulse"
                         title=""
-                        data={Object.values(editsPerDay).reverse()}
+                        data={Object.values(edits).reverse()}
                     />
                 </div>
             </CardBody>

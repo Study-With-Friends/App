@@ -16,6 +16,7 @@ export default function Home({ history }) {
     const [user, setUser] = useState();
     const [users, setUsers] = useState();
     const [allActivity, setAllActivity] = useState();
+    const [activityForFiles, setActivityForFiles] = useState({});
     const [currentTab, setCurrentTab] = useState('activity');
 
     const getUser = async () => {
@@ -32,9 +33,10 @@ export default function Home({ history }) {
     };
 
     const getAllActivity = async () => {
-        const { data, status } = await axios.get('/v1/activity?dayCount=365');
+        const { data, status } = await axios.get('/v1/activity?dayCount=30');
         if (status === 200) {
-            setAllActivity(data);
+            setAllActivity(data.activities);
+            setActivityForFiles(data.edits_for_file)
         }
     };
 
@@ -52,24 +54,6 @@ export default function Home({ history }) {
         getUsers();
     }, []);
 
-    const editsForFile = {};
-    const renderedActivities = new Set();
-    let sortedActivityDates;
-
-    if (allActivity) {
-        Object.keys(allActivity).forEach((key) => {
-            const activitiesForDay = allActivity[key];
-
-            activitiesForDay.forEach((activity) => {
-                if (!(activity.file.name in editsForFile)) {
-                    editsForFile[activity.file.name] = [];
-                }
-                editsForFile[activity.file.name].push(activity.timestamp);
-            });
-        });
-
-        sortedActivityDates = Object.keys(allActivity).sort().reverse();
-    }
     return (
         <div>
             <Navbar
@@ -94,32 +78,11 @@ export default function Home({ history }) {
                 </Tabs>
                 {currentTab === 'activity' &&
                     (allActivity ? (
-                        sortedActivityDates.map((day, i) => {
-                            let renderElement = false;
-                            for (const activity of allActivity[day]) {
-                                if (
-                                    !renderedActivities.has(activity.file.name)
-                                ) {
-                                    renderElement = true;
-                                    break;
-                                }
-                            }
-                            if (!renderElement || allActivity[day].length === 0)
-                                return null;
+                        Object.keys(allActivity).map((day, i) => {
                             return (
                                 <div key={'activity_' + i}>
-                                    <Title>{normalizeDate(day)}</Title>
+                                    {allActivity[day].length > 0 && <Title>{normalizeDate(day)}</Title>}
                                     {allActivity[day].map((activity) => {
-                                        if (
-                                            renderedActivities.has(
-                                                activity.file.name
-                                            )
-                                        ) {
-                                            return null;
-                                        }
-                                        renderedActivities.add(
-                                            activity.file.name
-                                        );
                                         return (
                                             <Activity
                                                 key={
@@ -134,11 +97,7 @@ export default function Home({ history }) {
                                                 displayName={
                                                     activity.file.displayName
                                                 }
-                                                edits={
-                                                    editsForFile[
-                                                        activity.file.name
-                                                    ]
-                                                }
+                                                edits={activity.file.name in activityForFiles ? activityForFiles[activity.file.name] : []}
                                                 avatar={activity.owner.avatar}
                                                 goToFileHandler={goToFile}
                                             />
