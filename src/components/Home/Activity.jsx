@@ -40,6 +40,8 @@ function Activity({ username, action, fileName, displayName, edits, avatar, goTo
         }
     });
 
+    
+
     return (
         <Card onClick={() => goToFileHandler(fileName)}>
             <CardBody style={styles.horizontal}>
