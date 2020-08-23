@@ -62,10 +62,19 @@ function Profile({ match, history }) {
     useEffect(() => {
         if (userData) {
             if (userData.history) {
-                const newSortedEditHistoryDates = Object.keys(userData.history);
-                setSortedEditHistoryDates(
-                    newSortedEditHistoryDates.slice(0).sort()
-                );
+                const numDays = 365;
+
+                const newSortedEditHistoryDates = [];
+
+                for (let i = 0; i < numDays; i++) {
+                    const newDate = new Date();
+                    newDate.setDate(newDate.getDate() - i);
+                    newSortedEditHistoryDates.push(
+                        newDate.toISOString().split('T')[0]
+                    );
+                }
+
+                setSortedEditHistoryDates(newSortedEditHistoryDates.slice(0).reverse());
             }
             if (user && userData.profile && userData.profile.followerList) {
                 for (const follower of userData.profile.followerList) {
@@ -106,7 +115,7 @@ function Profile({ match, history }) {
         getUserData();
     };
 
-    const openNote = (noteId) => {        
+    const openNote = (noteId) => {
         history.push('/viewer/' + noteId);
     };
 
@@ -137,9 +146,7 @@ function Profile({ match, history }) {
                                         }}
                                         style={{ marginBottom: 10 }}
                                     >
-                                        {followingUser
-                                            ? 'Unfollow'
-                                            : 'Follow'}
+                                        {followingUser ? 'Unfollow' : 'Follow'}
                                     </Button>
                                 )}
                                 <DetailRow className="mono">
@@ -243,6 +250,7 @@ function Profile({ match, history }) {
                         <div>
                             {sortedFileList.map((note) => (
                                 <NoteItem
+                                    key={note.name}
                                     className="mono"
                                     openNoteHandler={openNote}
                                     noteData={note}
