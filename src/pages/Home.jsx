@@ -42,6 +42,10 @@ export default function Home({ history }) {
         history.push('/' + username);
     };
 
+    const goToFile = async (fileName) => {
+        history.push('/viewer/' + fileName);
+    };
+
     useEffect(() => {
         getAllActivity();
         getUser();
@@ -65,7 +69,7 @@ export default function Home({ history }) {
     const sortedActivityDates = Object.keys(allActivity).sort().reverse();
     return (
         <div>
-            <Navbar user={user} />
+            <Navbar user={user} goToSignInHandler={() => history.push('/auth/login')} goToProfileHandler={goToProfile}/>
             <ContentWide>
                 <Tabs style={{ marginBottom: 20 }}>
                     <Tab
@@ -120,6 +124,7 @@ export default function Home({ history }) {
                                                 editsForFile[activity.file.name]
                                             }
                                             avatar={activity.owner.avatar}
+                                            goToFileHandler={goToFile}
                                         />
                                     );
                                 })}

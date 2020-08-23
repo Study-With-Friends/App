@@ -19,7 +19,7 @@ const UserLink = styled.a`
     }
 `;
 
-function Activity({ username, action, fileName, displayName, edits, avatar }) {
+function Activity({ username, action, fileName, displayName, edits, avatar, goToFileHandler }) {
     const editsPerDay = {};
     const numDays = 30;
 
@@ -41,7 +41,7 @@ function Activity({ username, action, fileName, displayName, edits, avatar }) {
     });
 
     return (
-        <Card>
+        <Card onClick={() => goToFileHandler(fileName)}>
             <CardBody style={styles.horizontal}>
                 <div className="left" style={styles.horizontalCentered}>
                     <a href={`/${username}`}>

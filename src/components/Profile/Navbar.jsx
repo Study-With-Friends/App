@@ -1,14 +1,17 @@
 import React from 'react';
+
+import UserAvatar from '../Common/UserAvatar';
 const logo = require('../../assets/logo.svg');
+const defaultPfp = require('../../assets/default-pfp.png');
 
 export default function Navbar({ user }) {
     return (
         <div style={styles.navbar}>
             <div style={styles.navbarContainer}>
-            <a href="/">
-                <img style={styles.logo} src={logo}/>
-            </a>
-            <a className="uppercase bold" style={styles.action}>{user ? user.name : 'My Profile'}</a>
+                <a href="/">
+                    <img style={styles.logo} src={logo}/>
+                </a>
+                <UserAvatar className="sm" src={user && user.avatar || defaultPfp} />
             </div>
         </div>
     )

@@ -3,17 +3,19 @@ import ReactMarkdown from 'react-markdown'
 
 import axios from 'axios';
 
-import Navbar from '../components/Auth/Navbar';
+import Navbar from '../components/Home/Navbar';
 import Title from '../components/Common/Title';
 import FullHeightContainer from '../components/Common/FullHeightContainer';
-import Content from '../components/Common/Content';
+import ContentWide from '../components/Common/ContentWide';
 import Input from '../components/Common/Input';
 import Button from '../components/Common/Button';
 import Link from '../components/Common/Link';
 
+import { ArrowLeftIcon } from '@primer/octicons-react';
+
 var fs = require('fs');
 
-export default function NoteViewer({ match }) {
+export default function NoteViewer({ history, match }) {
     const {
         params: { noteId },
     } = match;
@@ -48,11 +50,17 @@ export default function NoteViewer({ match }) {
     return (
         <FullHeightContainer>
             <Navbar user={user} />
-            <div style={styles.noteContainer}>
-                <div className='notes'>
-                    <ReactMarkdown source={file} />
+            <ContentWide>
+                <div style={styles.noteContainer}>
+                    <div style={styles.backContainer} onClick={() => history.goBack()}>
+                        <ArrowLeftIcon size={24} />
+                        <div style={{ marginLeft: 5 }}>back</div>
+                    </div>
+                    <div className='notes'>
+                        <ReactMarkdown source={file} />
+                    </div>
                 </div>
-            </div>
+            </ContentWide>
         </FullHeightContainer>
     )
 }
@@ -61,9 +69,13 @@ const styles = {
     noteContainer: {
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginTop: 50,
         marginBottom: 50,
+        width: '100%',
     },
+    backContainer: {
+        display: 'flex',
+        color: '#6A737D',
+        cursor: 'pointer',
+        alignItems: 'center',
+    }
 };

@@ -1,14 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle } from 'reactstrap';
+import axios from 'axios';
+
+import UserAvatar from '../Common/UserAvatar';
 const logo = require('../../assets/logo.svg');
 
-export default function Navbar({ user }) {
+export default function Navbar({ user, goToSignInHandler, goToProfileHandler }) {
+
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const toggle = () => setDropdownOpen(!dropdownOpen);
+
+    const logout = async () => {
+        const { data, status } = await axios.post('/v1/curuser/logout');
+        goToSignInHandler();
+    };
+
     return (
         <div style={styles.navbar}>
             <div style={styles.navbarContainer}>
-            <a href="/">
-                <img style={styles.logo} src={logo}/>
-            </a>
-            <a className="uppercase bold" style={styles.action}>{user ? user.name : 'My Profile'}</a>
+                <a href="/">
+                    <img style={styles.logo} src={logo}/>
+                </a>
+                <Dropdown isOpen={dropdownOpen} toggle={toggle}>
+                    <DropdownToggle tag="div">
+                        <UserAvatar className="sm" src={user && user.avatar || undefined} />
+                    </DropdownToggle>
+                    <DropdownMenu right>
+                        <DropdownItem onClick={() => goToProfileHandler(user.username)}>My Profile</DropdownItem>
+                        <DropdownItem onClick={logout}>Log Out</DropdownItem>
+                    </DropdownMenu>
+                </Dropdown>
             </div>
         </div>
     )
