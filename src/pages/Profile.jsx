@@ -219,7 +219,7 @@ function Profile({ match, history }) {
                                         style={{
                                             width: 8,
                                             height: 8,
-                                            margin: 1.5,
+                                            margin: 1,
                                             borderRadius: 1,
                                             backgroundColor: '#eeeeee',
                                             cursor: 'pointer',
@@ -232,7 +232,7 @@ function Profile({ match, history }) {
                                                 left: 0,
                                                 width: '100%',
                                                 height: '100%',
-                                                background: 'orange',
+                                                background: '#5adc5a',
                                                 opacity:
                                                     edits > 0
                                                         ? Math.log10(edits) / 3

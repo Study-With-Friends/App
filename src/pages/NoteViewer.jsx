@@ -38,6 +38,11 @@ export default function NoteViewer({ history, match }) {
             setFile(data);
         }
     };
+
+    const goToProfile = async (username) => {
+        history.push('/' + username);
+    };
+
     useEffect(() => {
         getFile();
     }, [noteId])
@@ -49,13 +54,15 @@ export default function NoteViewer({ history, match }) {
 
     return (
         <FullHeightContainer>
-            <Navbar user={user} />
+            <Navbar user={user} goToProfileHandler={goToProfile} goToSignInHandler={() => history.push('/auth/login')} />
             <ContentWide>
                 <div style={styles.noteContainer}>
-                    <div style={styles.backContainer} onClick={() => history.goBack()}>
-                        <ArrowLeftIcon size={24} />
-                        <div style={{ marginLeft: 5 }}>back</div>
-                    </div>
+                    {history && history.length > 2 &&
+                        <div style={styles.backContainer} onClick={() => history.goBack()}>
+                            <ArrowLeftIcon size={24} />
+                            <div style={{ marginLeft: 5 }}>back</div>
+                        </div>
+                    }
                     <div className='notes'>
                         <ReactMarkdown source={file} />
                     </div>
