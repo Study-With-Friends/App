@@ -56,7 +56,7 @@ function Activity({ username, action, fileName, displayName, edits, avatar }) {
                             <UserLink href={`/${username}`}>
                                 <b>{username}</b>
                             </UserLink>{' '}
-                            { action } a new note
+                            { action } a note
                         </span>
                         <span className="mono">{displayName}</span>
                     </div>

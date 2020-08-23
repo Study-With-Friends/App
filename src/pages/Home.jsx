@@ -60,6 +60,8 @@ export default function Home({ history }) {
         });
     });
 
+    const renderedActivities = new Set(); 
+
     return (
         <div>
             <Navbar user={user} />
@@ -80,21 +82,26 @@ export default function Home({ history }) {
                 </Tabs>
                 {currentTab === 'activity' &&
                     allActivity &&
-                    Object.keys(allActivity).map((day) => {
+                    Object.keys(allActivity).map((day, i) => {
                         if (allActivity[day].length == 0) return;
                         return (
-                            <div>
+                            <div key={"activity_" + i}>
                                 <Title>{normalizeDate(day)}</Title>
-                                {allActivity[day].map((activity) => (
-                                    <Activity
+                                {allActivity[day].map((activity) => {
+                                    if (renderedActivities.has(activity.file.name)) {
+                                        return
+                                    }
+                                    renderedActivities.add(activity.file.name);
+                                    return <Activity
+                                        key={'act_obj_'+ activity.file.name}
                                         username={activity.owner.username}
                                         fileName={activity.file.name}
-                                        action={activity.action}
+                                        action={activity.eventType}
                                         displayName={activity.file.displayName}
                                         edits={editsForFile[activity.file.name]}
                                         avatar={activity.owner.avatar}
                                     />
-                                ))}
+                                })}
                             </div>
                         );
                     })}
@@ -105,6 +112,7 @@ export default function Home({ history }) {
                             if (listUser.username !== user.username) {
                                 return (
                                     <User
+                                        key={'usr_obj_' + user.username}
                                         avatar={listUser.avatar}
                                         name={listUser.name}
                                         username={listUser.username}
