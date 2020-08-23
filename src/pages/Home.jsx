@@ -62,7 +62,7 @@ export default function Home({ history }) {
 
     const renderedActivities = new Set();
 
-    const sortedActivityDates = Object.keys(allActivity).sort();
+    const sortedActivityDates = Object.keys(allActivity).sort().reverse();
     return (
         <div>
             <Navbar user={user} />
