@@ -93,9 +93,7 @@ export default function Home({ history }) {
                                     <Activity
                                         username={activity.owner.username}
                                         fileName={activity.file.name}
-                                        displayName={
-                                            activity.file.fileDisplayName
-                                        }
+                                        displayName={activity.file.displayName}
                                         edits={editsForFile[activity.file.name]}
                                         avatar={activity.owner.avatar}
                                     />
