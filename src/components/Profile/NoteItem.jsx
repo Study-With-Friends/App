@@ -13,7 +13,6 @@ function NoteItem({ noteData, openNoteHandler }) {
                 marginBottom: 15,
             }}
             onClick={() => {
-                console.log(noteData);
                 openNoteHandler(noteData.name);
             }}
         >
