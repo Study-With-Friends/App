@@ -15,7 +15,7 @@ import User from '../components/Home/User';
 export default function Home({ history }) {
     const [user, setUser] = useState();
     const [users, setUsers] = useState();
-    const [allActivity, setAllActivity] = useState({});
+    const [allActivity, setAllActivity] = useState();
     const [currentTab, setCurrentTab] = useState('activity');
 
     const getUser = async () => {
@@ -53,23 +53,30 @@ export default function Home({ history }) {
     }, []);
 
     const editsForFile = {};
-    Object.keys(allActivity).forEach((key) => {
-        const activitiesForDay = allActivity[key];
-
-        activitiesForDay.forEach((activity) => {
-            if (!(activity.file.name in editsForFile)) {
-                editsForFile[activity.file.name] = [];
-            }
-            editsForFile[activity.file.name].push(activity.timestamp);
-        });
-    });
-
     const renderedActivities = new Set();
+    let sortedActivityDates;
 
-    const sortedActivityDates = Object.keys(allActivity).sort().reverse();
+    if (allActivity) {
+        Object.keys(allActivity).forEach((key) => {
+            const activitiesForDay = allActivity[key];
+
+            activitiesForDay.forEach((activity) => {
+                if (!(activity.file.name in editsForFile)) {
+                    editsForFile[activity.file.name] = [];
+                }
+                editsForFile[activity.file.name].push(activity.timestamp);
+            });
+        });
+
+        sortedActivityDates = Object.keys(allActivity).sort().reverse();
+    }
     return (
         <div>
-            <Navbar user={user} goToSignInHandler={() => history.push('/auth/login')} goToProfileHandler={goToProfile}/>
+            <Navbar
+                user={user}
+                goToSignInHandler={() => history.push('/auth/login')}
+                goToProfileHandler={goToProfile}
+            />
             <ContentWide>
                 <Tabs style={{ marginBottom: 20 }}>
                     <Tab
@@ -86,51 +93,63 @@ export default function Home({ history }) {
                     </Tab>
                 </Tabs>
                 {currentTab === 'activity' &&
-                    allActivity &&
-                    sortedActivityDates.map((day, i) => {
-                        let renderElement = false;
-                        for (const activity of allActivity[day]) {
-                            if (!renderedActivities.has(activity.file.name)) {
-                                renderElement = true;
-                                break;
+                    (allActivity ? (
+                        sortedActivityDates.map((day, i) => {
+                            let renderElement = false;
+                            for (const activity of allActivity[day]) {
+                                if (
+                                    !renderedActivities.has(activity.file.name)
+                                ) {
+                                    renderElement = true;
+                                    break;
+                                }
                             }
-                        }
-                        if (!renderElement || allActivity[day].length === 0)
-                            return null;
-                        return (
-                            <div key={'activity_' + i}>
-                                <Title>{normalizeDate(day)}</Title>
-                                {allActivity[day].map((activity) => {
-                                    if (
-                                        renderedActivities.has(
+                            if (!renderElement || allActivity[day].length === 0)
+                                return null;
+                            return (
+                                <div key={'activity_' + i}>
+                                    <Title>{normalizeDate(day)}</Title>
+                                    {allActivity[day].map((activity) => {
+                                        if (
+                                            renderedActivities.has(
+                                                activity.file.name
+                                            )
+                                        ) {
+                                            return null;
+                                        }
+                                        renderedActivities.add(
                                             activity.file.name
-                                        )
-                                    ) {
-                                        return null;
-                                    }
-                                    renderedActivities.add(activity.file.name);
-                                    return (
-                                        <Activity
-                                            key={
-                                                'act_obj_' + activity.file.name
-                                            }
-                                            username={activity.owner.username}
-                                            fileName={activity.file.name}
-                                            action={activity.eventType}
-                                            displayName={
-                                                activity.file.displayName
-                                            }
-                                            edits={
-                                                editsForFile[activity.file.name]
-                                            }
-                                            avatar={activity.owner.avatar}
-                                            goToFileHandler={goToFile}
-                                        />
-                                    );
-                                })}
-                            </div>
-                        );
-                    })}
+                                        );
+                                        return (
+                                            <Activity
+                                                key={
+                                                    'act_obj_' +
+                                                    activity.file.name
+                                                }
+                                                username={
+                                                    activity.owner.username
+                                                }
+                                                fileName={activity.file.name}
+                                                action={activity.eventType}
+                                                displayName={
+                                                    activity.file.displayName
+                                                }
+                                                edits={
+                                                    editsForFile[
+                                                        activity.file.name
+                                                    ]
+                                                }
+                                                avatar={activity.owner.avatar}
+                                                goToFileHandler={goToFile}
+                                            />
+                                        );
+                                    })}
+                                </div>
+                            );
+                        })
+                    ) : (
+                        <div>Loading...</div>
+                    ))}
                 <div>
                     {currentTab === 'users' &&
                         users &&
