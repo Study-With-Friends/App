@@ -13,7 +13,6 @@ export const normalizeDate = (dateStr) => {
     const date = new Date(dateStr);
     date.setHours(0, 0, 0, 0);
 
-    console.log(date.getTime() + "," + today.getTime() + "," + yesterday.getTime())
     if (date.getTime() === today.getTime()) {
         return "Today";
     } else if (date.getTime() === yesterday.getTime()) {

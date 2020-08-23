@@ -19,7 +19,7 @@ const UserLink = styled.a`
     }
 `;
 
-function Activity({ username, fileName, displayName, edits, avatar }) {
+function Activity({ username, action, fileName, displayName, edits, avatar }) {
     const editsPerDay = {};
     const numDays = 30;
 
@@ -35,14 +35,10 @@ function Activity({ username, fileName, displayName, edits, avatar }) {
 
     edits.forEach((edit) => {
         const editDate = edit.split(' ')[0];
-        console.log(editDate);
         if (editDate in editsPerDay) {
             editsPerDay[editDate] += 1;
         }
     });
-
-    console.log(edits);
-    console.log(editsPerDay);
 
     return (
         <Card>
@@ -60,7 +56,7 @@ function Activity({ username, fileName, displayName, edits, avatar }) {
                             <UserLink href={`/${username}`}>
                                 <b>{username}</b>
                             </UserLink>{' '}
-                            created a new note
+                            { action } a new note
                         </span>
                         <span className="mono">{displayName}</span>
                     </div>

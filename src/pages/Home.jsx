@@ -18,10 +18,6 @@ export default function Home({ history }) {
     const [allActivity, setAllActivity] = useState({});
     const [currentTab, setCurrentTab] = useState('activity');
 
-    useEffect(() => {
-        console.log(user);
-    }, [user]);
-
     const getUser = async () => {
         const { data, status } = await axios.get('/v1/curuser');
         if (status === 200) {
@@ -93,6 +89,7 @@ export default function Home({ history }) {
                                     <Activity
                                         username={activity.owner.username}
                                         fileName={activity.file.name}
+                                        action={activity.action}
                                         displayName={activity.file.displayName}
                                         edits={editsForFile[activity.file.name]}
                                         avatar={activity.owner.avatar}
