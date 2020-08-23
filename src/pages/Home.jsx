@@ -60,8 +60,9 @@ export default function Home({ history }) {
         });
     });
 
-    const renderedActivities = new Set(); 
+    const renderedActivities = new Set();
 
+    const sortedActivityDates = Object.keys(allActivity).sort();
     return (
         <div>
             <Navbar user={user} />
@@ -82,25 +83,45 @@ export default function Home({ history }) {
                 </Tabs>
                 {currentTab === 'activity' &&
                     allActivity &&
-                    Object.keys(allActivity).map((day, i) => {
-                        if (allActivity[day].length == 0) return;
+                    sortedActivityDates.map((day, i) => {
+                        let renderElement = false;
+                        for (const activity of allActivity[day]) {
+                            if (!renderedActivities.has(activity.file.name)) {
+                                renderElement = true;
+                                break;
+                            }
+                        }
+                        if (!renderElement || allActivity[day].length === 0)
+                            return null;
                         return (
-                            <div key={"activity_" + i}>
+                            <div key={'activity_' + i}>
                                 <Title>{normalizeDate(day)}</Title>
                                 {allActivity[day].map((activity) => {
-                                    if (renderedActivities.has(activity.file.name)) {
-                                        return
+                                    if (
+                                        renderedActivities.has(
+                                            activity.file.name
+                                        )
+                                    ) {
+                                        return null;
                                     }
                                     renderedActivities.add(activity.file.name);
-                                    return <Activity
-                                        key={'act_obj_'+ activity.file.name}
-                                        username={activity.owner.username}
-                                        fileName={activity.file.name}
-                                        action={activity.eventType}
-                                        displayName={activity.file.displayName}
-                                        edits={editsForFile[activity.file.name]}
-                                        avatar={activity.owner.avatar}
-                                    />
+                                    return (
+                                        <Activity
+                                            key={
+                                                'act_obj_' + activity.file.name
+                                            }
+                                            username={activity.owner.username}
+                                            fileName={activity.file.name}
+                                            action={activity.eventType}
+                                            displayName={
+                                                activity.file.displayName
+                                            }
+                                            edits={
+                                                editsForFile[activity.file.name]
+                                            }
+                                            avatar={activity.owner.avatar}
+                                        />
+                                    );
                                 })}
                             </div>
                         );
