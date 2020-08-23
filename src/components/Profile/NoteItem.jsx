@@ -2,7 +2,13 @@ import React from 'react';
 import moment from 'moment';
 
 function NoteItem({ noteData, openNoteHandler }) {
-    const diff = moment.duration(moment(noteData.lastModified).diff(moment()));
+    const curUTC = new Date().toISOString();
+    const curUTCStr = curUTC.substr(0, curUTC.length - 1);
+    const diff = moment.duration(
+        moment(noteData.lastModified).diff(moment(curUTCStr))
+    );
+    console.log(noteData.lastModified);
+    console.log(new Date().toISOString());
     return (
         <div
             style={{
