@@ -16,12 +16,13 @@ body {
 
 .hover-square {
   border-color: transparent;
-  border-width: 1px;
+  border-width: 0px;
   border-style: solid; 
+  border-radius: 1px;
 }
 
 .hover-square:hover {
-  border-color: rgb(116, 116, 116);
+  border-color: #41C463;
   border-width: 1px;
   border-style: solid;
 }
