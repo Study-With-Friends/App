@@ -28,8 +28,8 @@ function Activity({ username, fileName, displayName, edits, avatar }) {
 
     // pre-populate edits per day
     for (let i = 0; i < numDays; i++) {
-        const newDate = today;
-        newDate.setDate(newDate.getDate() - i);
+        const newDate = new Date();
+        newDate.setDate(newDate.getUTCDate() - i);
         editsPerDay[formatDate(newDate)] = 0;
     }
 
@@ -40,6 +40,9 @@ function Activity({ username, fileName, displayName, edits, avatar }) {
             editsPerDay[editDate] += 1;
         }
     });
+
+    console.log(edits);
+    console.log(editsPerDay);
 
     return (
         <Card>

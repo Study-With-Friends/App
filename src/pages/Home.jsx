@@ -53,6 +53,18 @@ export default function Home({ history }) {
         getUsers();
     }, []);
 
+    const editsForFile = {};
+    Object.keys(allActivity).forEach(key => {
+        const activitiesForDay = allActivity[key];
+
+        activitiesForDay.forEach(activity => {
+            if (!(activity.file.name in editsForFile)) {
+                editsForFile[activity.file.name] = []
+            }
+            editsForFile[activity.file.name].push(activity.timestamp);
+        });
+    });
+
     return (
         <div>
             <Navbar user={user} />
@@ -69,11 +81,11 @@ export default function Home({ history }) {
                                 <Title>{normalizeDate(day)}</Title>
                                 {allActivity[day].map(activity => (
                                     <Activity
-                                        username={activity.username}
-                                        fileName={activity.fileName}
-                                        displayName={activity.fileDisplayName}
-                                        edits={activity.edits}
-                                        avatar={activity.avatar}
+                                        username={activity.owner.username}
+                                        fileName={activity.file.name}
+                                        displayName={activity.file.fileDisplayName}
+                                        edits={editsForFile[activity.file.name]}
+                                        avatar={activity.owner.avatar}
                                     />
                                 ))}
                             </div>
